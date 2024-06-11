@@ -79,3 +79,54 @@ function init(){ // 로그인 폼에 쿠키에서 가져온 아이디 입력
     idsave_check.checked = true;
     }
     }
+    function session_set() { //세션 저장
+        let session_id = document.querySelector("#typeEmailX");
+        if (sessionStorage) {
+        sessionStorage.setItem("Session_Storage_test", session_id.value);
+        } else {
+        alert("로컬 스토리지 지원 x");
+        }
+        }
+
+        function session_get() { //세션 읽기
+            if (sessionStorage) {
+            return sessionStorage.getItem("Session_Storage_test");
+            } else {
+            alert("세션 스토리지 지원 x");
+            }
+            }
+
+            function encodeByAES256(key, data){
+                const cipher = CryptoJS.AES.encrypt(data, CryptoJS.enc.Utf8.parse(key), {
+                iv: CryptoJS.enc.Utf8.parse(""),
+                padding: CryptoJS.pad.Pkcs7,
+                mode: CryptoJS.mode.CBC
+                });
+                return cipher.toString();
+                }
+                function decodeByAES256(key, data){
+                const cipher = CryptoJS.AES.decrypt(data, CryptoJS.enc.Utf8.parse(key), {
+                iv: CryptoJS.enc.Utf8.parse(""),
+                padding: CryptoJS.pad.Pkcs7,
+                mode: CryptoJS.mode.CBC
+                });
+                return cipher.toString(CryptoJS.enc.Utf8);
+                }
+
+                function encrypt_text(password){
+                    const k = "key"; // 클라이언트 키
+                    const rk = k.padEnd(32, " "); // AES256은 key 길이가 32
+                    const b = password;
+                    const eb = this.encodeByAES256(rk, b);
+                    return eb;
+                    console.log(eb);
+                    }
+                    function decrypt_text(){
+                    const k = "key"; // 서버의 키
+                    const rk = k.padEnd(32, " "); // AES256은 key 길이가 32
+                    const eb = session_get();
+                    const b = this.decodeByAES256(rk, eb);
+                    console.log(b);
+                    }
+                    
+            
