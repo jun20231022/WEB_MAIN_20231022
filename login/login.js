@@ -61,3 +61,21 @@ if (!sanitizedPassword) {
 return false;
 }
 
+{
+alert("쿠키를 저장합니다.", emailValue);
+setCookie("id", emailValue, 1); // 1일 저장
+alert("쿠키 값 :" + emailValue);
+}
+{ // 아이디 체크 x
+setCookie("id", emailValue.value, 0); //날짜를 0 - 쿠키 삭제
+}
+
+function init(){ // 로그인 폼에 쿠키에서 가져온 아이디 입력
+    const emailInput = document.getElementById('typeEmailX');
+    const idsave_check = document.getElementById('idSaveCheck');
+    let get_id = getCookie("id");
+    if(get_id) {
+    emailInput.value = get_id;
+    idsave_check.checked = true;
+    }
+    }
